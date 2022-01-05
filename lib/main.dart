@@ -1,115 +1,152 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_project/base/config/hi_theme.dart';
+import 'package:flutter_project/base/navigator/hi_navigator.dart';
+import 'package:flutter_project/logic/login/hi_code_login_page.dart';
+import 'package:flutter_project/logic/luanch/hi_bottom_navigator.dart';
+import 'package:flutter_project/logic/luanch/hi_privacy_policy_page.dart';
+import 'package:flutter_project/net/db/hi_cache.dart';
+import 'package:flutter_project/provider/hi_tabbar_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(HiAPP());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class HiAPP extends StatefulWidget {
+  @override
+  _HiAPPState createState() => _HiAPPState();
+}
 
-  // This widget is the root of your application.
+class _HiAPPState extends State<HiAPP> {
+  APPRouteDelegate _routeDelegate = APPRouteDelegate();
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<HiCache>(
+        //进行初始化
+        future: HiCache.preInit(),
+        builder: (BuildContext context, AsyncSnapshot<HiCache> snapshot) {
+          //定义route
+          var widget = snapshot.connectionState == ConnectionState.done
+              ? Router(routerDelegate: _routeDelegate)
+              : Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+          bool isAgree = HiCache.getInstance().get("isAgree") == null
+              ? false
+              : HiCache.getInstance().get("isAgree") as bool;
+          _routeDelegate.routeStatus =
+              isAgree ? RouteStatus.home : RouteStatus.privacyPolicy;
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => HiTabbarProvider())
+            ],
+            child: ScreenUtilInit(
+                designSize: Size(1125, 2436),
+                builder: () => buildMaterialApp(widget)),
+          );
+        });
+  }
+
+  MaterialApp buildMaterialApp(Widget widget) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        //标题栏的名字
+        title: 'Hi Flutter',
+        theme: defaultTargetPlatform == TargetPlatform.iOS
+            ? HiTheme.kIOSTheme
+            : HiTheme.kDefaultTheme, // 根据平台获取主题
+        debugShowCheckedModeBanner: false, // 设置这一属性即可
+        // onGenerateRoute: Application.router.generator,
+        home: widget,
+        localizationsDelegates: [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        //国际化
+        supportedLocales: [
+          Locale('zh', 'CN'),
+        ]);
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class APPRouteDelegate extends RouterDelegate<APPRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<APPRoutePath> {
+  final GlobalKey<NavigatorState> navigatorKey;
+  Map? _args;
+  late RouteStatus routeStatus;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  //为Navigator设置一个key，必要的时候可以通过navigatorKey.currentState来获取到NavigatorState对象
+  APPRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
+    //实现路由跳转逻辑
+    HiNavigator().registerRouteJump(
+        RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map? args}) {
+      _args = args;
+      this.routeStatus = routeStatus;
+      notifyListeners();
+    }));
+    //设置网络错误拦截器
+    // HiNet().setErrorInterceptor((error) {
+    //   if (error is NeedLogin) {
+    //     //拉起登录
+    //     HiNavigator.getInstance().onJumpTo(RouteStatus.login);
+    //   }
+    // });
   }
-
+  List<MaterialPage> pages = [];
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    var index = getPageIndex(pages, routeStatus);
+    List<MaterialPage> tempPages = pages;
+    if (index != -1) {
+      //要打开的页面在栈中已存在，则将该页面和它上面的所有页面进行出栈
+      //tips 具体规则可以根据需要进行调整，这里要求栈中只允许有一个同样的页面的实例
+      tempPages = tempPages.sublist(0, index);
+    }
+    var page;
+    if (routeStatus == RouteStatus.home) {
+      pages.clear();
+      page = pageWrap(HiBottomNavigator());
+    } else if (routeStatus == RouteStatus.codeLogin) {
+      page = pageWrap(HiCodeLoginPage(
+          onCodeLoginPageListener: _args?["onCodeLoginPageListener"]));
+    } else if (routeStatus == RouteStatus.privacyPolicy) {
+      page = pageWrap(HiPrivacyPolicyPage());
+    }
+    //重新创建一个数组，否则pages因引用没有改变路由不会生效
+    tempPages = [...tempPages, page];
+    //通知路由发生变化
+    HiNavigator().notify(tempPages, pages);
+    pages = tempPages;
+    return WillPopScope(
+      //fix Android物理返回键，无法返回上一页问题@https://github.com/flutter/flutter/issues/66349
+      onWillPop: () async => !await navigatorKey.currentState!.maybePop(),
+      child: Navigator(
+        key: navigatorKey,
+        pages: pages,
+        onPopPage: (route, result) {
+          //执行返回操作
+          if (!route.didPop(result)) {
+            return false;
+          }
+          var tempPages = [...pages];
+          pages.removeLast();
+          //通知路由发生变化
+          HiNavigator().notify(pages, tempPages);
+          return true;
+        },
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  @override
+  Future<void> setNewRoutePath(APPRoutePath path) async {}
+}
+
+///定义路由数据，path
+class APPRoutePath {
+  final String location;
+  APPRoutePath.home() : location = "/";
 }
