@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
 import 'package:flutter_project/logic/home/hi_home_page.dart';
 import 'package:flutter_project/logic/login/hi_code_login_page.dart';
 import 'package:flutter_project/logic/luanch/hi_bottom_navigator.dart';
-import 'package:flutter_project/logic/luanch/hi_privacy_policy_page.dart';
+import 'package:flutter_project/logic/luanch/hi_privacy_page.dart';
 import 'package:singleton/singleton.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,16 +26,18 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { home, privacyPolicy, codeLogin, unknown }
+enum RouteStatus { home, privacy, codeLogin, healthCode, unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
   if (page.child is HiHomePage) {
     return RouteStatus.home;
-  } else if (page.child is HiPrivacyPolicyPage) {
+  } else if (page.child is HiPrivacyPage) {
     return RouteStatus.home;
   } else if (page.child is HiCodeLoginPage) {
     return RouteStatus.codeLogin;
+  } else if (page.child is HiHealthCodePage) {
+    return RouteStatus.healthCode;
   } else {
     return RouteStatus.unknown;
   }

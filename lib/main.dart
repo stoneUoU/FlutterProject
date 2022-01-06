@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_project/base/config/hi_theme.dart';
 import 'package:flutter_project/base/navigator/hi_navigator.dart';
+import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
 import 'package:flutter_project/logic/login/hi_code_login_page.dart';
 import 'package:flutter_project/logic/luanch/hi_bottom_navigator.dart';
-import 'package:flutter_project/logic/luanch/hi_privacy_policy_page.dart';
+import 'package:flutter_project/logic/luanch/hi_privacy_page.dart';
 import 'package:flutter_project/net/db/hi_cache.dart';
+import 'package:flutter_project/provider/hi_health_code_provider.dart';
 import 'package:flutter_project/provider/hi_tabbar_provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:menghabit/tool/widget/screen/screenutil_init.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -38,15 +40,15 @@ class _HiAPPState extends State<HiAPP> {
               ? false
               : HiCache.getInstance().get("isAgree") as bool;
           _routeDelegate.routeStatus =
-              isAgree ? RouteStatus.home : RouteStatus.privacyPolicy;
+              isAgree ? RouteStatus.home : RouteStatus.privacy;
           return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => HiTabbarProvider())
-            ],
-            child: ScreenUtilInit(
-                designSize: Size(1125, 2436),
-                builder: () => buildMaterialApp(widget)),
-          );
+              providers: [
+                ChangeNotifierProvider(create: (_) => HiTabbarProvider()),
+                ChangeNotifierProvider(create: (_) => HiHealthCodeProvider())
+              ],
+              child: ScreenUtilInit(
+                child: buildMaterialApp(widget),
+              ));
         });
   }
 
@@ -112,8 +114,10 @@ class APPRouteDelegate extends RouterDelegate<APPRoutePath>
     } else if (routeStatus == RouteStatus.codeLogin) {
       page = pageWrap(HiCodeLoginPage(
           onCodeLoginPageListener: _args?["onCodeLoginPageListener"]));
-    } else if (routeStatus == RouteStatus.privacyPolicy) {
-      page = pageWrap(HiPrivacyPolicyPage());
+    } else if (routeStatus == RouteStatus.privacy) {
+      page = pageWrap(HiPrivacyPage());
+    } else if (routeStatus == RouteStatus.healthCode) {
+      page = pageWrap(HiHealthCodePage());
     }
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
     tempPages = [...tempPages, page];

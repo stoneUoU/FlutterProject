@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/navigator/hi_navigator.dart';
 import 'package:flutter_project/logic/home/hi_home_page.dart';
-import 'package:flutter_project/logic/login/model/hi_login_model.dart';
-import 'package:flutter_project/net/db/hi_cache.dart';
+import 'package:flutter_project/logic/mine/hi_mine_page.dart';
 
 ///底部导航
 class HiBottomNavigator extends StatefulWidget {
@@ -24,7 +21,7 @@ class _HiBottomNavigatorState extends State<HiBottomNavigator> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _pages = [HiHomePage(), HiHomePage(), HiHomePage()];
+    _pages = [HiHomePage(), HiMinePage()];
     //页面第一次打开时通知打开的是那个tab
     HiNavigator().onBottomTabChange(initialPage, _pages[initialPage]);
   }
@@ -47,13 +44,8 @@ class _HiBottomNavigatorState extends State<HiBottomNavigator> {
         items: [
           _bottomItem('首页', 'assets/images/tab_bar/mine_icon_store_onclick.png',
               'assets/images/tab_bar/mine_icon_store_click.png', 0),
-          _bottomItem(
-              '购物车',
-              'assets/images/tab_bar/icon_shoppingcar_onclick.png',
-              'assets/images/tab_bar/icon_shoppingcar_click.png',
-              1),
           _bottomItem('我的', 'assets/images/tab_bar/mine_icon_mine_onclick.png',
-              'assets/images/tab_bar/mine_icon_mine_click.png', 2)
+              'assets/images/tab_bar/mine_icon_mine_click.png', 1)
         ],
       ),
     );
@@ -75,35 +67,35 @@ class _HiBottomNavigatorState extends State<HiBottomNavigator> {
   }
 
   void _onJumpTo(BuildContext context, int index) {
-    if (index == 1 || index == 2) {
-      String personalInfo = HiCache.getInstance().get("personalInfo") ?? "";
-      if (personalInfo.length == 0) {
-        HiNavigator().onJumpTo(RouteStatus.codeLogin, args: {
-          "onCodeLoginPageListener": (bool isSuccess) {
-            if (isSuccess) {
-              _controller.jumpToPage(index);
-              setState(() {
-                //控制选中第一个tab
-                _currentIndex = index;
-              });
-            }
-          }
-        });
-      } else {
-        Map<String, dynamic> map = json.decode(personalInfo);
-        HiLoginModel model = HiLoginModel.fromJson(map);
-        _controller.jumpToPage(index);
-        setState(() {
-          //控制选中第一个tab
-          _currentIndex = index;
-        });
-      }
-    } else {
-      _controller.jumpToPage(index);
-      setState(() {
-        //控制选中第一个tab
-        _currentIndex = index;
-      });
-    }
+    // if (index == 1 || index == 2) {
+    //   String personalInfo = HiCache.getInstance().get("personalInfo") ?? "";
+    //   if (personalInfo.length == 0) {
+    //     HiNavigator().onJumpTo(RouteStatus.codeLogin, args: {
+    //       "onCodeLoginPageListener": (bool isSuccess) {
+    //         if (isSuccess) {
+    //           _controller.jumpToPage(index);
+    //           setState(() {
+    //             //控制选中第一个tab
+    //             _currentIndex = index;
+    //           });
+    //         }
+    //       }
+    //     });
+    //   } else {
+    //     Map<String, dynamic> map = json.decode(personalInfo);
+    //     HiLoginModel model = HiLoginModel.fromJson(map);
+    //     _controller.jumpToPage(index);
+    //     setState(() {
+    //       //控制选中第一个tab
+    //       _currentIndex = index;
+    //     });
+    //   }
+    // } else {
+    _controller.jumpToPage(index);
+    setState(() {
+      //控制选中第一个tab
+      _currentIndex = index;
+    });
+    // }
   }
 }

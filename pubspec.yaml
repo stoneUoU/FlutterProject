@@ -38,7 +38,7 @@ dependencies:
   fluro: ^2.0.3
   dio: ^4.0.0
   flutter_screenutil: ^5.0.0+2 #屏幕适配
-  provider: ^5.0.0
+  provider: ^6.0.2
   url_launcher: ^6.0.9
   shared_preferences: ^2.0.4
   json_annotation: ^4.0.0
@@ -63,8 +63,10 @@ dependencies:
   barcode_widget: ^2.0.1   #二维码
   image_picker: ^0.8.3+2
   permission_handler: ^6.1.1  #请求权限
-  rsa_util: ^0.1.1  #rsa解密
   popover: ^0.2.6+2
+  menghabit:
+    path: menghabit
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +101,7 @@ flutter:
     - assets/images/home/
     - assets/images/tab_bar/
     - assets/images/login/
+    - assets/images/health_code/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.video.meng.guo">
    <application
-        android:label="flutter_abc"
+        android:label="flutter 框架"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

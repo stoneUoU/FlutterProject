@@ -27,6 +27,20 @@ const color_FFb5c7f2 = Color(0xFFb5c7f2);
 const color_FFe7ebf2 = Color(0xffe7ebf2);
 const color_FFf5f5f5 = Color(0xfff5f5f5);
 const color_FFCECECE = Color(0xffCECECE);
+const color_FFEFF4FB = Color(0xffEFF4FB);
+
+// 闽政通健康码：
+const HiColorMZTBlueView = Color(0xff2171f6);
+const HiColorMZTCheckView = Color(0xffeff5f3);
+const HiColorMZTGreenView = Color(0xff6ab069);
+const HiColorMZTOrangeView = Color(0xffF7ce44);
+const HiColorMZTRedView = Color(0xffeb3223);
+const HiColorMZTLightBlueView = Color(0xffe5ecf8);
+const HiColorMZTLightGoldView = Color(0xfffcf3ba);
+const HiColorMZTGradientOneView = Color(0xffecbc6b);
+const HiColorMZTGradientTwoView = Color(0xfff6eb9c);
+const HiColorMZTGradientThreeView = Color(0xffe48344);
+const HiColorMZTVaccinesView = Color(0xffcf885b);
 
 const color_FFE6A23C = Color(0xffE6A23C);
 const color_FFFFF7ED = Color(0xffFFF7ED);
