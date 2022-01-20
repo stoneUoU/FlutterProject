@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
@@ -11,7 +10,8 @@ import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiHealthCodeWidget extends StatefulWidget {
   final Key key;
-  const HiHealthCodeWidget(this.key) : super(key: key);
+  final AnimationController controller;
+  const HiHealthCodeWidget(this.key, this.controller) : super(key: key);
   @override
   HiHealthCodeWidgetState createState() => HiHealthCodeWidgetState();
 }
@@ -104,18 +104,20 @@ class HiHealthCodeWidgetState extends State<HiHealthCodeWidget> {
                 Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0),
-                    child: DefaultTextStyle(
-                      style: TextStyle(
-                          color: generateColor(),
-                          fontSize: 18.px,
-                          fontWeight: FontWeight.bold),
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          ScaleAnimatedText(generateLabel(), scalingFactor: 2.0)
-                        ],
-                        onTap: () {
-                          print("Tap Event");
-                        },
+                    child: Center(
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0),
+                        child: ScaleTransition(
+                          alignment: Alignment.center,
+                          scale: widget.controller,
+                          child: Text(
+                            generateLabel(),
+                            style: TextStyle(
+                                color: generateColor(),
+                                fontSize: 18.px,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   ),

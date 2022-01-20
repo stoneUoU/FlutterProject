@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
@@ -12,9 +11,10 @@ import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 import 'package:provider/provider.dart';
 
 class HiHealthCodeProviderWidget extends StatelessWidget {
-  HiHealthCodeProviderWidget({Key? key}) : super(key: key);
+  HiHealthCodeProviderWidget({Key? key, required this.controller})
+      : super(key: key);
   int clickNum = 0;
-
+  final AnimationController controller;
   //生成提示文字：
   String generateLabel(BuildContext context) {
     this.clickNum = context.watch<HiHealthCodeProvider>().clickNum;
@@ -51,7 +51,14 @@ class HiHealthCodeProviderWidget extends StatelessWidget {
         result = result + scopeC[Random().nextInt(scopeC.length)];
       }
     }
-    return result;
+    String numString = "";
+    for (int i = 0; i < result.length; i++) {
+      if (i % 4 == 0 && i > 0) {
+        numString += "  ";
+      }
+      numString += result[i];
+    }
+    return numString;
   }
 
   @override
@@ -72,23 +79,18 @@ class HiHealthCodeProviderWidget extends StatelessWidget {
               children: [
                 Center(
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0),
-                    child: DefaultTextStyle(
-                      style: TextStyle(
-                          color: generateColor(context),
-                          fontSize: 18.px,
-                          fontWeight: FontWeight.bold),
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          ScaleAnimatedText(generateLabel(context),
-                              scalingFactor: 2.0)
-                        ],
-                        onTap: () {
-                          print("Tap Event");
-                        },
+                      child: ScaleTransition(
+                        alignment: Alignment.center,
+                        scale: controller,
+                        child: Text(
+                          generateLabel(context),
+                          style: TextStyle(
+                              color: generateColor(context),
+                              fontSize: 18.px,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                  ),
+                      margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0)),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0),

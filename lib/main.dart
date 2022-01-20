@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_project/base/config/hi_initialize.dart';
+import 'package:flutter_project/base/config/hi_language.dart';
 import 'package:flutter_project/base/config/hi_theme.dart';
 import 'package:flutter_project/base/navigator/hi_navigator.dart';
 import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
@@ -13,8 +15,12 @@ import 'package:flutter_project/provider/hi_tabbar_provider.dart';
 import 'package:menghabit/tool/widget/screen/screenutil_init.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(HiAPP());
+void main() async {
+  await HiInitialize.dispatchRunMainBefore().then((value) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      runApp(HiAPP());
+    });
+  });
 }
 
 class HiAPP extends StatefulWidget {
@@ -69,7 +75,7 @@ class _HiAPPState extends State<HiAPP> {
         ],
         //国际化
         supportedLocales: [
-          Locale('zh', 'CN'),
+          Locale(HiLanguage.currentLanguage, ''),
         ]);
   }
 }

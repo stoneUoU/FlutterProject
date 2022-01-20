@@ -47,8 +47,7 @@ class _HiHomePageState extends State<HiHomePage>
                 controller: _scrollController,
               ),
             ),
-          ),
-          Container(height: ScreenUtils.padBotH(), width: ScreenUtils.screenW())
+          )
         ],
       ),
     );
@@ -260,7 +259,7 @@ class _HiHomeMedicalInsuranceQueryGrid extends StatelessWidget {
     return SliverStickyHeader(
         sticky: false,
         header: Container(
-          height: 50.px,
+          height: 54.px,
           alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(left: 16),
           child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
+import 'package:menghabit/tool/utils/screen_utils.dart';
 
 class HiHealthCodeSourceWidget extends StatelessWidget {
   const HiHealthCodeSourceWidget({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class HiHealthCodeSourceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenW(context),
-      height: 188.px + 64.px,
+      height: 188.px + 64.px + ScreenUtils.padBotH(),
       child: Column(
         children: [
           Container(
@@ -143,7 +144,9 @@ class HiHealthCodeSourceWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-              )
+              ),
+              Container(
+                  height: ScreenUtils.padBotH(), width: ScreenUtils.screenW())
             ],
           ))
         ],

@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
-import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:flutter_project/logic/health_code/widget/hi_health_code_check_widget.dart';
 import 'package:flutter_project/logic/health_code/widget/hi_health_code_info_widget.dart';
 import 'package:flutter_project/logic/health_code/widget/hi_health_code_navigation_widget.dart';
@@ -19,20 +20,51 @@ class HiHealthCodePage extends StatefulWidget {
   _HiHealthCodePageState createState() => _HiHealthCodePageState();
 }
 
-class _HiHealthCodePageState extends State<HiHealthCodePage> {
+class _HiHealthCodePageState extends State<HiHealthCodePage>
+    with SingleTickerProviderStateMixin {
   GlobalKey<HiHealthCodeWidgetState> healthCodeWidgetStateKey = GlobalKey();
+
+  late AnimationController controller;
+  late Timer timer;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    controller = AnimationController(
+        duration: const Duration(seconds: 1),
+        lowerBound: 1.0,
+        upperBound: 1.5,
+        vsync: this);
+    //动画开始、结束、向前移动或向后移动时会调用StatusListener
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+      } else if (status == AnimationStatus.dismissed) {
+        print("status is dismissed");
+      } else if (status == AnimationStatus.forward) {
+        print("status is forward");
+      } else if (status == AnimationStatus.reverse) {
+        print("status is reverse");
+      }
+    });
+
+    const timeout = const Duration(seconds: 1);
+    this.timer = Timer.periodic(timeout, (timer) {
+      if (!mounted) return;
+      if (controller.isCompleted) {
+        controller.reverse();
+      } else {
+        controller.forward();
+      }
+    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    this.timer.cancel();
   }
 
   @override
@@ -50,28 +82,28 @@ class _HiHealthCodePageState extends State<HiHealthCodePage> {
             print("关闭闽政通展码页");
             Navigator.pop(context);
           }),
-          new Container(
-              width: ScreenW(context),
-              height: ScreenH(context) -
-                  (kBottomNavigationBarHeight + StatusH(context)),
-              color: HiColorMZTBlueView,
-              child: CustomScrollView(
-                slivers: [
-                  _StickyHeaderList(
-                      index: 0,
-                      clickListener: (int clickNum) {
-                        this.generateClickNum(clickNum);
-                      }),
-                  _StickyHeaderList(
-                    index: 1,
-                    stateKey: this.healthCodeWidgetStateKey,
-                  ),
-                  _StickyHeaderList(index: 2),
-                  _StickyHeaderList(index: 3),
-                  _StickyHeaderList(index: 4)
-                ],
-                reverse: false,
-              ))
+          new Expanded(
+            child: Container(
+                color: HiColorMZTBlueView,
+                child: CustomScrollView(
+                  slivers: [
+                    _HiHealthCodeListWidget(
+                        index: 0,
+                        clickListener: (int clickNum) {
+                          this.generateClickNum(clickNum);
+                        }),
+                    _HiHealthCodeListWidget(
+                      index: 1,
+                      stateKey: this.healthCodeWidgetStateKey,
+                      controller: controller,
+                    ),
+                    _HiHealthCodeListWidget(index: 2),
+                    _HiHealthCodeListWidget(index: 3),
+                    _HiHealthCodeListWidget(index: 4)
+                  ],
+                  reverse: false,
+                )),
+          )
         ],
       ),
     );
@@ -82,22 +114,26 @@ class _HiHealthCodePageState extends State<HiHealthCodePage> {
   }
 }
 
-typedef void _StickyHeaderListClickListener(int intString);
+typedef void _HiHealthCodeListWidgetClickListener(int intString);
 
-class _StickyHeaderList extends StatelessWidget {
+class _HiHealthCodeListWidget extends StatelessWidget {
   GlobalKey<State>? stateKey = GlobalKey();
-  _StickyHeaderListClickListener? clickListener;
-  _StickyHeaderList({Key? key, this.index, this.stateKey, this.clickListener})
+  AnimationController? controller;
+  _HiHealthCodeListWidgetClickListener? clickListener;
+  _HiHealthCodeListWidget(
+      {Key? key,
+      this.index,
+      this.stateKey,
+      this.controller,
+      this.clickListener})
       : super(key: key);
   final int? index;
-
   @override
   Widget build(BuildContext context) {
     return SliverStickyHeader(
       sticky: false,
       header: Container(
         color: HiColorMZTBlueView,
-        width: ScreenW(context),
         height: index == 0 || index == 1 ? 0 : 12,
       ),
       sliver: SliverList(
@@ -112,8 +148,8 @@ class _StickyHeaderList extends StatelessWidget {
                 context.read<HiHealthCodeProvider>().setClickNum(intString);
               });
             } else if (index == 1) {
-              // return HiHealthCodeWidget(stateKey!);
-              return HiHealthCodeProviderWidget();
+              // return HiHealthCodeWidget(stateKey!, controller!);
+              return HiHealthCodeProviderWidget(controller: controller!);
             } else if (index == 2) {
               return HiHealthCodeCheckWidget();
             } else if (index == 3) {
