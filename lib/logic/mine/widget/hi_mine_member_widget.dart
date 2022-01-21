@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/logic/mine/widget/hi_mine_member_cell_image_widget.dart';
 import 'package:flutter_project/logic/mine/widget/hi_mine_member_cell_label_widget.dart';
+import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiMineMemberWidget extends StatefulWidget {
   const HiMineMemberWidget({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _HiMineMemberWidgetState extends State<HiMineMemberWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.px),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -29,12 +30,12 @@ class _HiMineMemberWidgetState extends State<HiMineMemberWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: color_FF303133,
-                          fontSize: 16,
+                          fontSize: 16.px,
                         )),
                     Text("(1/5)",
                         style: TextStyle(
                           color: color_FF1B65B9,
-                          fontSize: 16,
+                          fontSize: 16.px,
                         ))
                   ],
                 ),
@@ -48,8 +49,8 @@ class _HiMineMemberWidgetState extends State<HiMineMemberWidget> {
                     ),
                     Image.asset(
                       'assets/images/common/ylz_arrow_right.png',
-                      width: 12,
-                      height: 12,
+                      width: 12.px,
+                      height: 12.px,
                     )
                   ],
                 )
@@ -57,8 +58,8 @@ class _HiMineMemberWidgetState extends State<HiMineMemberWidget> {
             ),
           ),
           Container(
-            height: 96,
-            margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            height: 96.px,
+            margin: EdgeInsets.fromLTRB(16.px, 0, 16.px, 0),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {

@@ -7,6 +7,7 @@ import 'package:flutter_project/logic/mine/widget/hi_mine_header_widget.dart';
 import 'package:flutter_project/logic/mine/widget/hi_mine_list_widget.dart';
 import 'package:flutter_project/logic/mine/widget/hi_mine_member_widget.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiMinePage extends StatefulWidget {
   const HiMinePage({Key? key}) : super(key: key);
@@ -79,7 +80,7 @@ class _StickyHeaderList extends StatelessWidget {
       header: Container(
         color: color_FFF5F5F5,
         width: ScreenW(context),
-        height: index == 0 ? 0 : 10,
+        height: index == 0 ? 0 : 10.px,
       ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(

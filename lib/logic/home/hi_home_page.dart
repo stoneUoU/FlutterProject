@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/navigator/hi_navigator.dart';
 import 'package:flutter_project/base/widget/hi_highlight_icon_button.dart';
+import 'package:flutter_project/base/widget/hi_info_alert_dialog.dart';
+import 'package:flutter_project/base/widget/hi_version_alert_dialog.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
@@ -30,25 +33,51 @@ class _HiHomePageState extends State<HiHomePage>
     // TODO: implement initState
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    _alert();
+    print("集五福 福同享AAAAAAAAAAA");
+  }
+
+  void _alert() {
+    Future.delayed(Duration(seconds: 0), () {
+      showDialog(
+          context: context,
+          // 点击背景区域是否可以关闭
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return HiInfoAlertDialog(
+                data: "集五福 福同享",
+                closeCallback: () {
+                  print("集五福 福同享");
+                });
+          });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          HiHomeNavigationWidget(context: context),
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: CustomScrollView(
-                slivers: _setUpSliverWidgets(),
-                reverse: false,
-                controller: _scrollController,
+    super.build(context);
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            HiHomeNavigationWidget(context: context),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: CustomScrollView(
+                  slivers: _setUpSliverWidgets(),
+                  reverse: false,
+                  controller: _scrollController,
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -92,32 +121,45 @@ class _HiHomeElecCardGrid extends StatelessWidget {
           childAspectRatio: childAspectRatio),
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return Stack(
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          return InkWell(
+            child: Stack(
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    width: cellWidth,
+                    height: desiredCellHeight,
+                    child: Image.asset('assets/images/home/home_top_bg.png',
+                        fit: BoxFit.fill)),
+                Positioned(
+                  child: Container(
+                    width: cellWidth,
+                    height: desiredCellHeight,
+                    alignment: Alignment.center,
+                    child: new Text("易  联  众  民  生 \n Flutter  框  架",
+                        style: new TextStyle(
+                            fontSize: 24.0.px,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                        textAlign: TextAlign.left),
                   ),
-                  width: cellWidth,
-                  height: desiredCellHeight,
-                  child: Image.asset('assets/images/home/home_top_bg.png',
-                      fit: BoxFit.fill)),
-              Positioned(
-                child: Container(
-                  width: cellWidth,
-                  height: desiredCellHeight,
-                  alignment: Alignment.center,
-                  child: new Text("易  联  众  民  生 \n Flutter  框  架",
-                      style: new TextStyle(
-                          fontSize: 24.0.px,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                      textAlign: TextAlign.left),
-                ),
-                left: 0,
-                top: 0,
-              )
-            ],
+                  left: 0,
+                  top: 0,
+                )
+              ],
+            ),
+            onTap: () {
+              // HiNavigator().onJumpTo(RouteStatus.healthCode);
+              showDialog(
+                  context: context,
+                  // 点击背景区域是否可以关闭
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return HiVersionAlertDialog(
+                        data: "更新弹窗", closeCallback: () {});
+                  });
+            },
           );
         },
         childCount: 1,
@@ -152,28 +194,40 @@ class _HiHomeToppingQueryGrid extends StatelessWidget {
           childAspectRatio: childAspectRatio),
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return Container(
-            child: Column(
-              children: [
-                Container(
-                  width: 32.px,
-                  height: 32.px,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0.px)),
-                    color: Color.fromRGBO(Random().nextInt(256),
-                        Random().nextInt(256), Random().nextInt(256), 1),
+          return InkWell(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    width: 32.px,
+                    height: 32.px,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0.px)),
+                      color: Color.fromRGBO(Random().nextInt(256),
+                          Random().nextInt(256), Random().nextInt(256), 1),
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10.px),
-                  child: Text(
-                    "民生科技",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: color_FF606266, fontSize: 12.px),
-                  ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.only(top: 10.px),
+                    child: Text(
+                      "民生科技",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: color_FF606266, fontSize: 12.px),
+                    ),
+                  )
+                ],
+              ),
             ),
+            onTap: () {
+              showDialog(
+                  context: context,
+                  // 点击背景区域是否可以关闭
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return HiInfoAlertDialog(
+                        data: "更新弹窗", closeCallback: () {});
+                  });
+            },
           );
         },
         childCount: 8,

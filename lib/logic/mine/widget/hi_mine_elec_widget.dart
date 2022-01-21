@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
+import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiMineElecWidget extends StatelessWidget {
   const HiMineElecWidget({Key? key}) : super(key: key);
@@ -12,18 +13,18 @@ class HiMineElecWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.px),
             child: Text(
               "医保电子凭证",
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: color_FF303133,
-                fontSize: 16,
+                fontSize: 16.px,
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 16.px),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -32,12 +33,12 @@ class HiMineElecWidget extends StatelessWidget {
                     Image.asset('assets/images/mine/ylz_mine_bank_card.png',
                         fit: BoxFit.fill),
                     Padding(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: EdgeInsets.only(top: 8.px),
                       child: Text("银行卡",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: color_FF303133,
-                            fontSize: 16,
+                            fontSize: 16.px,
                           )),
                     ),
                   ],
@@ -47,12 +48,12 @@ class HiMineElecWidget extends StatelessWidget {
                     Image.asset('assets/images/mine/ylz_mine_use_record.png',
                         fit: BoxFit.fill),
                     Padding(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: EdgeInsets.only(top: 8.px),
                       child: Text("使用记录",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: color_FF303133,
-                            fontSize: 16,
+                            fontSize: 16.px,
                           )),
                     )
                   ],
@@ -62,12 +63,12 @@ class HiMineElecWidget extends StatelessWidget {
                     Image.asset('assets/images/mine/ylz_mine_deal_record.png',
                         fit: BoxFit.fill),
                     Padding(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: EdgeInsets.only(top: 8.px),
                       child: Text("交易记录",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: color_FF303133,
-                            fontSize: 16,
+                            fontSize: 16.px,
                           )),
                     )
                   ],
