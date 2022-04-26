@@ -33,6 +33,7 @@ class _HiMinePageState extends State<HiMinePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         body: Container(
       color: Colors.white,

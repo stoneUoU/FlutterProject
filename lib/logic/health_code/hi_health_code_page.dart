@@ -63,8 +63,9 @@ class _HiHealthCodePageState extends State<HiHealthCodePage>
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     this.timer.cancel();
+    this.controller.dispose();
+    super.dispose();
   }
 
   @override

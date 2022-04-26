@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
@@ -68,7 +69,8 @@ class HiVersionAlertDialog extends Dialog {
                                     style: TextStyle(
                                         height: 1.6,
                                         color: color_FF606266,
-                                        fontSize: 14.px))
+                                        fontSize: 14.px,
+                                        fontWeight: FontWeight.w300))
                               ]),
                         ),
                       ),

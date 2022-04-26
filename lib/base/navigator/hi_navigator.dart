@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/base/pages/hi_web_page.dart';
 import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
 import 'package:flutter_project/logic/home/hi_home_page.dart';
 import 'package:flutter_project/logic/login/hi_code_login_page.dart';
@@ -26,7 +27,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { home, privacy, codeLogin, healthCode, unknown }
+enum RouteStatus { home, privacy, codeLogin, healthCode, hiWeb, unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -38,6 +39,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.codeLogin;
   } else if (page.child is HiHealthCodePage) {
     return RouteStatus.healthCode;
+  } else if (page.child is HiWebPage) {
+    return RouteStatus.hiWeb;
   } else {
     return RouteStatus.unknown;
   }

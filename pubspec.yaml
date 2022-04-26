@@ -54,7 +54,7 @@ dependencies:
   simple_logger: ^1.0.0
   flutter_easyrefresh: ^2.2.1
   connectivity: ^3.0.6
-  flutter_html: ^2.1.1
+  flutter_html: ^3.0.0-alpha.2
   flutter_custom_bottom_tab_bar:
     git: https://github.com/LiuC520/flutter_custom_bottom_tab_bar
 
@@ -67,6 +67,7 @@ dependencies:
   menghabit:
     path: menghabit
   intl: any
+  webview_flutter: ^3.0.0
 
 dev_dependencies:
   flutter_test:

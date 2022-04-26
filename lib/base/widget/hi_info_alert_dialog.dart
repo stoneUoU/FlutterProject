@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiInfoAlertDialog extends Dialog {
-  HiInfoAlertDialog({Key? key, required this.data, required this.closeCallback})
+  HiInfoAlertDialog(
+      {Key? key,
+      required this.data,
+      required this.closeCallback,
+      required this.successCallback})
       : super(key: key);
   final data;
   final closeCallback;
+  final successCallback;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -15,15 +20,26 @@ class HiInfoAlertDialog extends Dialog {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  height: 325.px,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0.px)),
-                    color: Colors.white,
-                  ),
-                  child: Image.asset('assets/images/common/flutter_luck.png',
-                      fit: BoxFit.fill),
-                ),
+                GestureDetector(
+                    onTap: () {
+                      // 点击关闭事件
+                      print("进医保APP");
+                      if (successCallback != null) {
+                        successCallback();
+                      }
+                      Navigator.pop(context, true);
+                    },
+                    child: Container(
+                      height: 325.px,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10.0.px)),
+                        color: Colors.white,
+                      ),
+                      child: Image.asset(
+                          'assets/images/common/flutter_luck.png',
+                          fit: BoxFit.fill),
+                    )),
                 Container(
                   height: 50.px,
                   child: GestureDetector(

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 ///自定义顶部appBar
-HiAppBar(String title, String rightTitle, VoidCallback rightButtonClick) {
+HiAppBar(Color bgColor, Color backButtonColor, String title, Color titleColor,
+    String rightTitle, VoidCallback rightButtonClick) {
   return AppBar(
     //让title居左
+    backgroundColor: bgColor,
     centerTitle: false,
     titleSpacing: 0,
-    leading: BackButton(),
+    leading: BackButton(
+      color: backButtonColor,
+    ),
     title: Text(
       title,
-      style: TextStyle(fontSize: 18),
+      style: TextStyle(fontSize: 18, color: titleColor),
     ),
     actions: [
       InkWell(

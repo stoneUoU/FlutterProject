@@ -5,6 +5,7 @@ import 'package:flutter_project/base/config/hi_initialize.dart';
 import 'package:flutter_project/base/config/hi_language.dart';
 import 'package:flutter_project/base/config/hi_theme.dart';
 import 'package:flutter_project/base/navigator/hi_navigator.dart';
+import 'package:flutter_project/base/pages/hi_web_page.dart';
 import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
 import 'package:flutter_project/logic/login/hi_code_login_page.dart';
 import 'package:flutter_project/logic/luanch/hi_bottom_navigator.dart';
@@ -124,6 +125,8 @@ class APPRouteDelegate extends RouterDelegate<APPRoutePath>
       page = pageWrap(HiPrivacyPage());
     } else if (routeStatus == RouteStatus.healthCode) {
       page = pageWrap(HiHealthCodePage());
+    } else if (routeStatus == RouteStatus.hiWeb) {
+      page = pageWrap(HiWebPage(urlString: _args?["urlString"]));
     }
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
     tempPages = [...tempPages, page];

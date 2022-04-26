@@ -33,11 +33,10 @@ class _HiHomePageState extends State<HiHomePage>
     // TODO: implement initState
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    _alert();
-    print("集五福 福同享AAAAAAAAAAA");
+    _alertLuck();
   }
 
-  void _alert() {
+  void _alertLuck() {
     Future.delayed(Duration(seconds: 0), () {
       showDialog(
           context: context,
@@ -45,10 +44,31 @@ class _HiHomePageState extends State<HiHomePage>
           barrierDismissible: false,
           builder: (BuildContext context) {
             return HiInfoAlertDialog(
-                data: "集五福 福同享",
-                closeCallback: () {
-                  print("集五福 福同享");
+              data: "集五福 福同享",
+              closeCallback: () {
+                print("集五福 福同享");
+                _alertVersion();
+              },
+              successCallback: () {
+                print("集五福 福同享---");
+                HiNavigator().onJumpTo(RouteStatus.hiWeb, args: {
+                  "urlString":
+                      "https://render.alipay.com/p/yuyan/180020570000002340-prod/index.html"
                 });
+              },
+            );
+          });
+    });
+  }
+
+  void _alertVersion() {
+    Future.delayed(Duration(seconds: 0), () {
+      showDialog(
+          context: context,
+          // 点击背景区域是否可以关闭
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return HiVersionAlertDialog(data: "更新弹窗", closeCallback: () {});
           });
     });
   }
@@ -151,14 +171,6 @@ class _HiHomeElecCardGrid extends StatelessWidget {
             ),
             onTap: () {
               // HiNavigator().onJumpTo(RouteStatus.healthCode);
-              showDialog(
-                  context: context,
-                  // 点击背景区域是否可以关闭
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return HiVersionAlertDialog(
-                        data: "更新弹窗", closeCallback: () {});
-                  });
             },
           );
         },
@@ -218,16 +230,7 @@ class _HiHomeToppingQueryGrid extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  // 点击背景区域是否可以关闭
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return HiInfoAlertDialog(
-                        data: "更新弹窗", closeCallback: () {});
-                  });
-            },
+            onTap: () {},
           );
         },
         childCount: 8,
