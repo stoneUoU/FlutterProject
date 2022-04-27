@@ -103,6 +103,7 @@ flutter:
     - assets/images/tab_bar/
     - assets/images/login/
     - assets/images/health_code/
+    - assets/images/route_code/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
