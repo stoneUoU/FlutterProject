@@ -5,6 +5,7 @@ import 'package:flutter_project/logic/health_code/widget/hi_health_code_navigati
 import 'package:flutter_project/logic/route_code/model/hi_function_model.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_info_cell.dart';
+import 'package:flutter_project/logic/route_code/widget/hi_route_code_loading_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_record_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_header_widget.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_source_cell.dart';
