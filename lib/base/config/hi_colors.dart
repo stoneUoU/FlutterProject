@@ -42,6 +42,12 @@ const HiColorMZTGradientTwoView = Color(0xfff6eb9c);
 const HiColorMZTGradientThreeView = Color(0xffe48344);
 const HiColorMZTVaccinesView = Color(0xffcf885b);
 
+//福建健康码：
+const HiColorRouteCode = Color(0xffe8eaf0);
+const HiColorAllInsertCode = Color(0xfff3fcf5);
+const HiColorCodeBlue = Color(0xff3a5ddd);
+const HiColorCodeButtonbgColor = Color(0xffeceffb);
+
 const color_FFE6A23C = Color(0xffE6A23C);
 const color_FFFFF7ED = Color(0xffFFF7ED);
 

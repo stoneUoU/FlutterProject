@@ -6,8 +6,9 @@ import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 typedef void HiHealthCodeNavigationWidgetClickListener(int index);
 
 class HiHealthCodeNavigationWidget extends StatelessWidget {
+  final String titleString;
   final HiHealthCodeNavigationWidgetClickListener clickListener;
-  const HiHealthCodeNavigationWidget({Key? key, required this.clickListener})
+  const HiHealthCodeNavigationWidget({Key? key,required this.titleString, required this.clickListener})
       : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class HiHealthCodeNavigationWidget extends StatelessWidget {
               color: Colors.white,
               child: Center(
                   child: Text(
-                "福建八闽健康码",
+                    this.titleString,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

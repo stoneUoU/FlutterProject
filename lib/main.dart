@@ -10,6 +10,7 @@ import 'package:flutter_project/logic/health_code/hi_health_code_page.dart';
 import 'package:flutter_project/logic/login/hi_code_login_page.dart';
 import 'package:flutter_project/logic/luanch/hi_bottom_navigator.dart';
 import 'package:flutter_project/logic/luanch/hi_privacy_page.dart';
+import 'package:flutter_project/logic/route_code/hi_route_code_page.dart';
 import 'package:flutter_project/net/db/hi_cache.dart';
 import 'package:flutter_project/provider/hi_health_code_provider.dart';
 import 'package:flutter_project/provider/hi_tabbar_provider.dart';
@@ -46,8 +47,10 @@ class _HiAPPState extends State<HiAPP> {
           bool isAgree = HiCache.getInstance().get("isAgree") == null
               ? false
               : HiCache.getInstance().get("isAgree") as bool;
-          _routeDelegate.routeStatus =
-              isAgree ? RouteStatus.home : RouteStatus.privacy;
+          // _routeDelegate.routeStatus =
+          //     isAgree ? RouteStatus.home : RouteStatus.privacy;
+          _routeDelegate.routeStatus = RouteStatus.routeCode;
+          // _routeDelegate.routeStatus = RouteStatus.healthCode;
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider(create: (_) => HiTabbarProvider()),
@@ -125,6 +128,8 @@ class APPRouteDelegate extends RouterDelegate<APPRoutePath>
       page = pageWrap(HiPrivacyPage());
     } else if (routeStatus == RouteStatus.healthCode) {
       page = pageWrap(HiHealthCodePage());
+    } else if (routeStatus == RouteStatus.routeCode) {
+      page = pageWrap(HiRouteCodePage());
     } else if (routeStatus == RouteStatus.hiWeb) {
       page = pageWrap(HiWebPage(urlString: _args?["urlString"]));
     }

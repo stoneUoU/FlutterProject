@@ -79,7 +79,7 @@ class _HiHealthCodePageState extends State<HiHealthCodePage>
     return new Container(
       child: Column(
         children: [
-          HiHealthCodeNavigationWidget(clickListener: (int index) {
+          HiHealthCodeNavigationWidget(titleString:"福建八闽健康码",clickListener: (int index) {
             print("关闭闽政通展码页");
             Navigator.pop(context);
           }),
