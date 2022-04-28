@@ -42,8 +42,8 @@ class HiHealthCodeNavigationWidget extends StatelessWidget {
                 child: Container(
                   width: 64.px,
                   height: 24.px,
-                  decoration: new BoxDecoration(
-                    border: new Border.all(
+                  decoration: BoxDecoration(
+                    border: Border.all(
                       color: color_FFCECECE,
                       width: 1.0.px,
                     ),
@@ -54,6 +54,8 @@ class HiHealthCodeNavigationWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
+                        width: 30.px,
+                        height: 24.px,
                         child: Image.asset(
                           'assets/images/common/hi_mirco_more.png',
                         ),
@@ -65,6 +67,8 @@ class HiHealthCodeNavigationWidget extends StatelessWidget {
                       ),
                       InkWell(
                         child: Container(
+                          width: 30.px,
+                          height: 24.px,
                           child: Image.asset(
                             'assets/images/common/hi_mirco_shut.png',
                           ),

@@ -124,34 +124,34 @@ class HiHealthCodeWidgetState extends State<HiHealthCodeWidget> {
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 12.px, 0, 0),
-                  child: HiHealthCodeTimerWidget(),
+                  child: const HiHealthCodeTimerWidget(),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 12.px),
                   width: 240.px,
                   height: 240.px,
-                  decoration: new BoxDecoration(
+                  decoration:  BoxDecoration(
                     gradient: codeLinearGradient(fromTop: true),
                     borderRadius:
-                        new BorderRadius.all(new Radius.circular(10.0.px)),
+                         BorderRadius.all(Radius.circular(10.0.px)),
                   ),
                   child: Center(
                     child: Container(
                         width: 230.px,
                         height: 230.px,
-                        decoration: new BoxDecoration(
+                        decoration:  BoxDecoration(
                           color: Colors.white,
-                          borderRadius: new BorderRadius.all(
-                              new Radius.circular(10.0.px)),
+                          borderRadius:  BorderRadius.all(
+                               Radius.circular(10.0.px)),
                         ),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
                             BarcodeWidget(
-                              decoration: new BoxDecoration(
+                              decoration:  BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(10.0.px)),
+                                borderRadius:  BorderRadius.all(
+                                     Radius.circular(10.0.px)),
                               ),
                               color: generateColor(),
                               barcode: Barcode.qrCode(

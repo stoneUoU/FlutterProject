@@ -23,7 +23,9 @@ class HiHomePage extends StatefulWidget {
 class _HiHomePageState extends State<HiHomePage>
     with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = new ScrollController();
-
+  _HiHomePageState() {
+    _alertLuck();
+  }
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -33,7 +35,6 @@ class _HiHomePageState extends State<HiHomePage>
     // TODO: implement initState
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    _alertLuck();
   }
 
   void _alertLuck() {
@@ -47,7 +48,7 @@ class _HiHomePageState extends State<HiHomePage>
               data: "集五福 福同享",
               closeCallback: () {
                 print("集五福 福同享");
-                _alertVersion();
+                // _alertVersion();
               },
               successCallback: () {
                 print("集五福 福同享---");
@@ -146,7 +147,7 @@ class _HiHomeElecCardGrid extends StatelessWidget {
               children: [
                 Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(10.px)),
                     ),
                     width: cellWidth,
                     height: desiredCellHeight,
@@ -157,8 +158,8 @@ class _HiHomeElecCardGrid extends StatelessWidget {
                     width: cellWidth,
                     height: desiredCellHeight,
                     alignment: Alignment.center,
-                    child: new Text("易  联  众  民  生 \n Flutter  框  架",
-                        style: new TextStyle(
+                    child:  Text("易  联  众  民  生 \n Flutter  框  架",
+                        style:  TextStyle(
                             fontSize: 24.0.px,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
@@ -170,7 +171,7 @@ class _HiHomeElecCardGrid extends StatelessWidget {
               ],
             ),
             onTap: () {
-              // HiNavigator().onJumpTo(RouteStatus.healthCode);
+              HiNavigator().onJumpTo(RouteStatus.routeCode);
             },
           );
         },
@@ -267,7 +268,7 @@ class _HiHomeAuthorGrid extends StatelessWidget {
         (context, index) {
           return Stack(
             children: [
-              Container(
+              InkWell(child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5.0.px))),
                 width: cellWidth,
@@ -291,7 +292,9 @@ class _HiHomeAuthorGrid extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
+              ),onTap: () {
+                HiNavigator().onJumpTo(RouteStatus.healthCode);
+              },),
               Positioned(
                   top: 15.px,
                   right: 36.px,
@@ -663,7 +666,7 @@ class HiHomeNavigationWidget extends StatelessWidget {
                       child: HiHighLightIconButton(
                         onTap: () {
                           // print("点击");
-                          HiNavigator().onJumpTo(RouteStatus.healthCode);
+
                         },
                         iconSize: Size(28.px, 28.px),
                         imageName: 'assets/images/home/home_notice.png',

@@ -30,7 +30,7 @@ class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
                   topRight: Radius.circular(12.0)),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   child: Column(
@@ -74,7 +74,7 @@ class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
                       Container(
                           margin: EdgeInsets.fromLTRB(16.px, 6.px, 0, 0),
                           child: Text(
-                              this.isOn
+                              !isOn
                                   ? "362324********6010"
                                   : "362324199610016010",
                               maxLines: 1,
@@ -88,8 +88,9 @@ class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.px, 0, 16.px, 0),
+                  margin: EdgeInsets.fromLTRB(0.px, 0, 16.px, 0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
                         margin: EdgeInsets.only(right: 8.px),
@@ -110,11 +111,11 @@ class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
                               color: HiColorCodeBlue,
                             )),
                         onTap: () {
-                          this.clickNum = this.clickNum + 1;
-                          if (this.clickNum > 2) {
-                            this.clickNum = 0;
-                          }
-                          widget.routeCodeCellInfoWidgetClickListener(this.clickNum);
+                          // this.clickNum = this.clickNum + 1;
+                          // if (this.clickNum > 2) {
+                          //   this.clickNum = 0;
+                          // }
+                          // widget.routeCodeCellInfoWidgetClickListener(this.clickNum);
                         },
                       )
                     ],

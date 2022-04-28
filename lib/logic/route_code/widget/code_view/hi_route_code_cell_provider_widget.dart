@@ -9,14 +9,7 @@ import 'package:flutter_project/provider/hi_route_code_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
-class HiRouteCodeCellWidget extends StatefulWidget {
-  const HiRouteCodeCellWidget({Key? key}) : super(key: key);
-  @override
-  _HiRouteCodeCellWidgetState createState() =>
-      _HiRouteCodeCellWidgetState();
-}
-
-class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
+class HiRouteCodeCellProviderWidget extends StatelessWidget {
   bool isOn = false;
   /**
    * 0 : 绿码
@@ -25,7 +18,7 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
    */
   int clickNum = 0;
   //生成提示文字：
-  String generateLabel() {
+  String generateLabel(BuildContext context) {
     clickNum = context.watch<HiRouteCodeProvider>().clickNum;
     switch (clickNum) {
       case 0:
@@ -36,7 +29,8 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
         return "红码：健康状态为高风险";
     }
   }
-  Color generateColor() {
+
+  Color generateColor(BuildContext context) {
     clickNum = context.watch<HiRouteCodeProvider>().clickNum;
     switch (clickNum) {
       case 0:
@@ -69,20 +63,21 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
     return numString;
   }
 
-  Widget funcCodeLogic() {
-    if (this.isOn) {
-      return Container(margin: EdgeInsets.only(top: 8.px),
-        width: 218.px,
-        height: 218.px,child:ClipRRect(
-            borderRadius: BorderRadius.circular(10.px),
-            child: Image(
-                width: 218.px,
-                height: 218.px,
-                image: const AssetImage(
-                    "assets/images/route_code/ylz_mine_avater.png"),
-                fit: BoxFit.cover)
-            )
-      );
+  // context.read<HiRouteCodeProvider>().setClickNum(idStr);
+  Widget funcCodeLogic(BuildContext context) {
+    if (context.watch<HiRouteCodeProvider>().isOn) {
+      return Container(
+          margin: EdgeInsets.only(top: 8.px),
+          width: 218.px,
+          height: 218.px,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.px),
+              child: Image(
+                  width: 218.px,
+                  height: 218.px,
+                  image: const AssetImage(
+                      "assets/images/route_code/ylz_mine_avater.png"),
+                  fit: BoxFit.cover)));
     }
     return Container(
       margin: EdgeInsets.only(top: 8.px),
@@ -98,8 +93,7 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
             height: 208.px,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius:
-              BorderRadius.all(Radius.circular(10.0.px)),
+              borderRadius: BorderRadius.all(Radius.circular(10.0.px)),
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -107,10 +101,9 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
                 BarcodeWidget(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(10.0.px)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0.px)),
                   ),
-                  color: generateColor(),
+                  color: generateColor(context),
                   barcode: Barcode.qrCode(
                     errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                   ),
@@ -132,8 +125,7 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
                   height: 32.px,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(4.0.px)),
+                    borderRadius: BorderRadius.all(Radius.circular(4.0.px)),
                   ),
                 ),
               ],
@@ -156,61 +148,23 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
           ),
           Stack(children: [
             Container(
-              child: Center(
-                  child: funcCodeLogic()),
+              child: Center(child: funcCodeLogic(context)),
               width: ScreenW(context) - 48.px,
             ),
             Positioned(
                 child: Container(
                   child: Column(
                     children: [
-                      InkWell(child: Container(
-                        width: 48.px,
-                        height: 59.px,
-                        decoration: BoxDecoration(
-                          color: this.isOn ? HiColorCodeButtonbgColor : Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(8.0.px)),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(top: 6.px),
-                                child: Image(
-                                    width: 24.px,
-                                    height: 24.px,
-                                    image: AssetImage(
-                                        this.isOn ? "assets/images/route_code/ylz_qrcode_bleak.png":"assets/images/route_code/ylz_qrcode_bright.png"),
-                                    fit: BoxFit.cover)),
-                            Container(
-                                child: Text("亮码",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12.px,
-                                      color: this.isOn ? color_FF303133 :HiColorCodeBlue,
-                                    )))
-                          ],
-                        ),
-                      ),onTap: () {
-                        if (!this.isOn) {
-                          return;
-                        }
-                        setState(() {
-                          this.isOn = false;
-                        });
-                      },),
-                      Container(
+                      InkWell(
+                        child: Container(
                           width: 48.px,
-                          height: 0.5.px,
-                          color: HiColorRouteCode),
-                      InkWell(child: Container(
-                          width: 48.px,
-                          height: 58.5.px,
+                          height: 59.px,
                           decoration: BoxDecoration(
-                            color: !this.isOn ? HiColorCodeButtonbgColor : Colors.white,
+                            color: context.watch<HiRouteCodeProvider>().isOn
+                                ? HiColorCodeButtonbgColor
+                                : Colors.white,
                             borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(8.0.px)),
+                                topRight: Radius.circular(8.0.px)),
                           ),
                           child: Column(
                             children: [
@@ -219,26 +173,83 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
                                   child: Image(
                                       width: 24.px,
                                       height: 24.px,
-                                      image: AssetImage(
-                                          this.isOn ? "assets/images/route_code/ylz_personal_info_bleak.png" : "assets/images/route_code/ylz_personal_info_bright.png"),
+                                      image: AssetImage(context
+                                              .watch<HiRouteCodeProvider>()
+                                              .isOn
+                                          ? "assets/images/route_code/ylz_qrcode_bleak.png"
+                                          : "assets/images/route_code/ylz_qrcode_bright.png"),
                                       fit: BoxFit.cover)),
                               Container(
-                                  child: Text("人像",
+                                  child: Text("亮码",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 12.px,
-                                        color: !this.isOn ? color_FF303133 :HiColorCodeBlue,
+                                        color: context
+                                                .watch<HiRouteCodeProvider>()
+                                                .isOn
+                                            ? color_FF303133
+                                            : HiColorCodeBlue,
                                       )))
                             ],
-                          )),onTap: () {
-                        if (this.isOn) {
-                          return;
-                        }
-                        setState(() {
-                          this.isOn = true;
-                        });
-                      },)
+                          ),
+                        ),
+                        onTap: () {
+                          if (!Provider.of<HiRouteCodeProvider>(context, listen: false).isOn) {
+                            return;
+                          }
+                          Provider.of<HiRouteCodeProvider>(context, listen: false).setIsOn(false);
+                        },
+                      ),
+                      Container(
+                          width: 48.px,
+                          height: 0.5.px,
+                          color: HiColorRouteCode),
+                      InkWell(
+                        child: Container(
+                            width: 48.px,
+                            height: 58.5.px,
+                            decoration: BoxDecoration(
+                              color: !context.watch<HiRouteCodeProvider>().isOn
+                                  ? HiColorCodeButtonbgColor
+                                  : Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(8.0.px)),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(top: 6.px),
+                                    child: Image(
+                                        width: 24.px,
+                                        height: 24.px,
+                                        image: AssetImage(context
+                                                .watch<HiRouteCodeProvider>()
+                                                .isOn
+                                            ? "assets/images/route_code/ylz_personal_info_bleak.png"
+                                            : "assets/images/route_code/ylz_personal_info_bright.png"),
+                                        fit: BoxFit.cover)),
+                                Container(
+                                    child: Text("人像",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 12.px,
+                                          color: !context
+                                                  .watch<HiRouteCodeProvider>()
+                                                  .isOn
+                                              ? color_FF303133
+                                              : HiColorCodeBlue,
+                                        )))
+                              ],
+                            )),
+                        onTap: () {
+                          if (Provider.of<HiRouteCodeProvider>(context, listen: false).isOn) {
+                            return;
+                          }
+                          Provider.of<HiRouteCodeProvider>(context, listen:false).setIsOn(true);
+                        },
+                      )
                     ],
                   ),
                   width: 48.px,
@@ -259,9 +270,9 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
           Container(
             margin: EdgeInsets.only(top: 12.px),
             child: Text(
-              generateLabel(),
+              generateLabel(context),
               style: TextStyle(
-                  color: generateColor(),
+                  color: generateColor(context),
                   fontSize: 18.px,
                   fontWeight: FontWeight.bold),
             ),

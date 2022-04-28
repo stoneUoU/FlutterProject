@@ -76,14 +76,14 @@ class _HiHealthCodePageState extends State<HiHealthCodePage>
   }
 
   Widget getBody() {
-    return new Container(
+    return Container(
       child: Column(
         children: [
           HiHealthCodeNavigationWidget(titleString:"福建八闽健康码",clickListener: (int index) {
             print("关闭闽政通展码页");
             Navigator.pop(context);
           }),
-          new Expanded(
+          Expanded(
             child: Container(
                 color: HiColorMZTBlueView,
                 child: CustomScrollView(

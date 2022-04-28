@@ -1,15 +1,21 @@
-// hi_route_code_record_cell
+
 import 'package:flutter/material.dart';
-import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:flutter_project/provider/hi_route_code_provider.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 import 'package:provider/provider.dart';
 import 'code_view/hi_route_code_cell_bottom_widget.dart';
 import 'code_view/hi_route_code_cell_info_widget.dart';
-import 'code_view/hi_route_code_cell_widget.dart';
+import 'code_view/hi_route_code_cell_state_widget.dart';
 
-class HiRouteCodeCell extends StatelessWidget {
-  const HiRouteCodeCell({Key? key}) : super(key: key);
+class HiRouteCodeStateCell extends StatefulWidget {
+  const HiRouteCodeStateCell({Key? key}) : super(key: key);
+  @override
+  _HiRouteCodeStateCellState createState() =>
+      _HiRouteCodeStateCellState();
+}
+
+class _HiRouteCodeStateCellState extends State<HiRouteCodeStateCell> {
+  GlobalKey<HiRouteCodeCellStateWidgetState> routeCodeWidgetStateKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,13 +26,16 @@ class HiRouteCodeCell extends StatelessWidget {
       child: Column(
         children: [
           HiRouteCodeCellInfoWidget(routeCodeCellInfoWidgetClickListener: (int idStr) {
-            // print("${idString}");
-            context.read<HiRouteCodeProvider>().setClickNum(idStr);
+            this.generateClickNum(idStr);
           },),
-          HiRouteCodeCellWidget(),
-          HiRouteCodeCellBottomWidget()
+          HiRouteCodeCellStateWidget(key:this.routeCodeWidgetStateKey),
+          const HiRouteCodeCellBottomWidget()
         ],
       ),
     );
+  }
+
+  void generateClickNum(int intString) {
+    this.routeCodeWidgetStateKey.currentState?.generateClickNum(intString);
   }
 }

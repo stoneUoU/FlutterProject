@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_project/base/config/hi_initialize.dart';
 import 'package:flutter_project/base/config/hi_language.dart';
@@ -48,9 +49,9 @@ class _HiAPPState extends State<HiAPP> {
           bool isAgree = HiCache.getInstance().get("isAgree") == null
               ? false
               : HiCache.getInstance().get("isAgree") as bool;
-          // _routeDelegate.routeStatus =
-          //     isAgree ? RouteStatus.home : RouteStatus.privacy;
-          _routeDelegate.routeStatus = RouteStatus.routeCode;
+          _routeDelegate.routeStatus =
+              isAgree ? RouteStatus.home : RouteStatus.privacy;
+          // _routeDelegate.routeStatus = RouteStatus.routeCode;
           // _routeDelegate.routeStatus = RouteStatus.healthCode;
           return MultiProvider(
               providers: [
@@ -74,6 +75,7 @@ class _HiAPPState extends State<HiAPP> {
         debugShowCheckedModeBanner: false, // 设置这一属性即可
         // onGenerateRoute: Application.router.generator,
         home: widget,
+        builder: EasyLoading.init(),
         localizationsDelegates: const [
           GlobalCupertinoLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

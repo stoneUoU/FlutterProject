@@ -1,15 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/logic/health_code/widget/hi_health_code_navigation_widget.dart';
 import 'package:flutter_project/logic/route_code/model/hi_function_model.dart';
-import 'package:flutter_project/logic/route_code/widget/hi_route_code_cell.dart';
+import 'package:flutter_project/logic/route_code/widget/hi_route_code_provider_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_info_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_loading_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_record_cell.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_header_widget.dart';
 import 'package:flutter_project/logic/route_code/widget/hi_route_code_source_cell.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+
+import 'widget/hi_route_code_state_cell.dart';
 
 class HiRouteCodePage extends StatefulWidget {
   const HiRouteCodePage({Key? key}) : super(key: key);
@@ -39,17 +44,29 @@ class _HiRouteCodePageState extends State<HiRouteCodePage>
     ],
     []
   ];
+  bool isLoading = true;
+  late Timer _timer;
 
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     super.initState();
+    EasyLoading.show(status: '加载中...');
+    _timer = Timer(const Duration(milliseconds: 2000), () {
+      EasyLoading.dismiss(animation: true);
+      setState(() {
+        isLoading = false;
+      });
+    });
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   }
 
   @override
-  void dispose() => super.dispose();
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,43 +99,34 @@ class _HiRouteCodePageState extends State<HiRouteCodePage>
     List <Widget> slivers= [];
     for (int i = 0; i<this.dataArrays.length; i++) {
       List <HiFunctionModel> funcModels = this.dataArrays[i];
-      slivers.add(_HiRouteCodeListWidget(index: i,clickListener:(int clickNum) {},funcModels: funcModels));
+      slivers.add(funcStickyHeader(i,funcModels));
     }
     return slivers;
   }
-}
 
-typedef _HiRouteCodeListWidgetClickListener = void Function(int intString);
-
-// ignore: must_be_immutable
-class _HiRouteCodeListWidget extends StatelessWidget {
-  GlobalKey<State>? stateKey = GlobalKey();
-  final int? index;
-  _HiRouteCodeListWidgetClickListener? clickListener;
-  List<HiFunctionModel>? funcModels;
-  _HiRouteCodeListWidget(
-      {Key? key, this.index, this.stateKey, this.clickListener,this.funcModels})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
+  SliverStickyHeader funcStickyHeader(int index,List<HiFunctionModel> funcModels) {
     return SliverStickyHeader(
       sticky: false,
       header: funcHeaderContainer(index),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, i) {
+              (context, i) {
             if (index == 0) {
-              return const HiRouteCodeCell();
+              if (isLoading) {
+                return const HiRouteCodeLoadingCell();
+              }
+              return const HiRouteCodeProviderCell();
+              // return const HiRouteCodeStateCell();
             } else if (index == 1) {
               return const HiRouteCodeRecordCell();
             } else if (index == 2 || index == 3) {
-              HiFunctionModel funcModel =  this.funcModels![i];
+              HiFunctionModel funcModel = funcModels[i];
               return HiRouteCodeInfoCell(funcModel: funcModel);
             } else {
               return const HiRouteCodeSourceCell();
             }
           },
-          childCount: (index == 0 || index == 1 || index == 4) ? 1 : this.funcModels?.length,
+          childCount: (index == 0 || index == 1 || index == 4) ? 1 : funcModels.length,
         ),
       ),
     );
