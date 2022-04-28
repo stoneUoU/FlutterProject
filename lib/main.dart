@@ -13,6 +13,7 @@ import 'package:flutter_project/logic/luanch/hi_privacy_page.dart';
 import 'package:flutter_project/logic/route_code/hi_route_code_page.dart';
 import 'package:flutter_project/net/db/hi_cache.dart';
 import 'package:flutter_project/provider/hi_health_code_provider.dart';
+import 'package:flutter_project/provider/hi_route_code_provider.dart';
 import 'package:flutter_project/provider/hi_tabbar_provider.dart';
 import 'package:menghabit/tool/widget/screen/screenutil_init.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class HiAPP extends StatefulWidget {
 }
 
 class _HiAPPState extends State<HiAPP> {
-  APPRouteDelegate _routeDelegate = APPRouteDelegate();
+  final APPRouteDelegate _routeDelegate = APPRouteDelegate();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<HiCache>(
@@ -41,7 +42,7 @@ class _HiAPPState extends State<HiAPP> {
           //定义route
           var widget = snapshot.connectionState == ConnectionState.done
               ? Router(routerDelegate: _routeDelegate)
-              : Scaffold(
+              : const Scaffold(
                   body: Center(child: CircularProgressIndicator()),
                 );
           bool isAgree = HiCache.getInstance().get("isAgree") == null
@@ -54,7 +55,8 @@ class _HiAPPState extends State<HiAPP> {
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider(create: (_) => HiTabbarProvider()),
-                ChangeNotifierProvider(create: (_) => HiHealthCodeProvider())
+                ChangeNotifierProvider(create: (_) => HiHealthCodeProvider()),
+                ChangeNotifierProvider(create: (_) => HiRouteCodeProvider())
               ],
               child: ScreenUtilInit(
                 child: buildMaterialApp(widget),
@@ -72,7 +74,7 @@ class _HiAPPState extends State<HiAPP> {
         debugShowCheckedModeBanner: false, // 设置这一属性即可
         // onGenerateRoute: Application.router.generator,
         home: widget,
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalCupertinoLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
@@ -86,7 +88,9 @@ class _HiAPPState extends State<HiAPP> {
 
 class APPRouteDelegate extends RouterDelegate<APPRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<APPRoutePath> {
+  @override
   final GlobalKey<NavigatorState> navigatorKey;
+
   Map? _args;
   late RouteStatus routeStatus;
 
@@ -125,11 +129,11 @@ class APPRouteDelegate extends RouterDelegate<APPRoutePath>
       page = pageWrap(HiCodeLoginPage(
           onCodeLoginPageListener: _args?["onCodeLoginPageListener"]));
     } else if (routeStatus == RouteStatus.privacy) {
-      page = pageWrap(HiPrivacyPage());
+      page = pageWrap(const HiPrivacyPage());
     } else if (routeStatus == RouteStatus.healthCode) {
-      page = pageWrap(HiHealthCodePage());
+      page = pageWrap(const HiHealthCodePage());
     } else if (routeStatus == RouteStatus.routeCode) {
-      page = pageWrap(HiRouteCodePage());
+      page = pageWrap(const HiRouteCodePage());
     } else if (routeStatus == RouteStatus.hiWeb) {
       page = pageWrap(HiWebPage(urlString: _args?["urlString"]));
     }
@@ -160,6 +164,7 @@ class APPRouteDelegate extends RouterDelegate<APPRoutePath>
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   Future<void> setNewRoutePath(APPRoutePath path) async {}
 }
 

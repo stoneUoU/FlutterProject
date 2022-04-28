@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:flutter_project/logic/health_code/widget/hi_health_code_timer_widget.dart';
+import 'package:flutter_project/provider/hi_route_code_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 class HiRouteCodeCellWidget extends StatefulWidget {
@@ -22,25 +24,21 @@ class _HiRouteCodeCellWidgetState extends State<HiRouteCodeCellWidget> {
    * 2 : 红码
    */
   int clickNum = 0;
-  void generateClickNum(int clickNum) {
-    setState(() {
-      this.clickNum = clickNum;
-    });
-  }
-
   //生成提示文字：
   String generateLabel() {
-    switch (this.clickNum) {
+    clickNum = context.watch<HiRouteCodeProvider>().clickNum;
+    switch (clickNum) {
       case 0:
         return "绿码：健康状态为低风险";
       case 1:
-        return "绿码：健康状态为低风险";
+        return "黄码：健康状态为中风险";
       default:
         return "红码：健康状态为高风险";
     }
   }
   Color generateColor() {
-    switch (this.clickNum) {
+    clickNum = context.watch<HiRouteCodeProvider>().clickNum;
+    switch (clickNum) {
       case 0:
         return HiColorMZTGreenView;
       case 1:

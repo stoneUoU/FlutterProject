@@ -1,7 +1,9 @@
 // hi_route_code_record_cell
 import 'package:flutter/material.dart';
 import 'package:flutter_project/base/config/hi_const.dart';
+import 'package:flutter_project/provider/hi_route_code_provider.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
+import 'package:provider/provider.dart';
 import 'code_view/hi_route_code_cell_bottom_widget.dart';
 import 'code_view/hi_route_code_cell_info_widget.dart';
 import 'code_view/hi_route_code_cell_widget.dart';
@@ -17,7 +19,10 @@ class HiRouteCodeCell extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Column(
         children: [
-          HiRouteCodeCellInfoWidget(),
+          HiRouteCodeCellInfoWidget(routeCodeCellInfoWidgetClickListener: (int idStr) {
+            // print("${idString}");
+            context.read<HiRouteCodeProvider>().setClickNum(idStr);
+          },),
           HiRouteCodeCellWidget(),
           HiRouteCodeCellBottomWidget()
         ],

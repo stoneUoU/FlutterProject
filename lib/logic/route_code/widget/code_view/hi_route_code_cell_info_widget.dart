@@ -3,8 +3,11 @@ import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/widget/hi_separator_view.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
+typedef HiRouteCodeCellInfoWidgetClickListener = void Function(int idStr);
+
 class HiRouteCodeCellInfoWidget extends StatefulWidget {
-  const HiRouteCodeCellInfoWidget({Key? key}) : super(key: key);
+  final HiRouteCodeCellInfoWidgetClickListener routeCodeCellInfoWidgetClickListener;
+  const HiRouteCodeCellInfoWidget({Key? key,required this.routeCodeCellInfoWidgetClickListener}) : super(key: key);
   @override
   _HiRouteCodeCellInfoWidgetState createState() =>
       _HiRouteCodeCellInfoWidgetState();
@@ -12,6 +15,7 @@ class HiRouteCodeCellInfoWidget extends StatefulWidget {
 
 class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
   bool isOn = false;
+  int clickNum = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,7 +109,13 @@ class _HiRouteCodeCellInfoWidgetState extends State<HiRouteCodeCellInfoWidget> {
                               fontWeight: FontWeight.bold,
                               color: HiColorCodeBlue,
                             )),
-                        onTap: () {},
+                        onTap: () {
+                          this.clickNum = this.clickNum + 1;
+                          if (this.clickNum > 2) {
+                            this.clickNum = 0;
+                          }
+                          widget.routeCodeCellInfoWidgetClickListener(this.clickNum);
+                        },
                       )
                     ],
                   ),

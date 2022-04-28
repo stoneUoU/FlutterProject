@@ -3,6 +3,7 @@ import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:flutter_project/logic/route_code/model/hi_function_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
 // ignore: must_be_immutable
 class HiRouteCodeRecordCell extends StatelessWidget {
@@ -13,41 +14,41 @@ class HiRouteCodeRecordCell extends StatelessWidget {
       children: [
         Stack(children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-            height: 96,
-            width: (ScreenW(context) - 48 - 16) / 2,
-            decoration: const BoxDecoration(
+            margin: EdgeInsets.fromLTRB(24.px, 0, 0, 0),
+            height: 96.px,
+            width: (ScreenW(context) - 48.px - 16.px) / 2,
+            decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: BorderRadius.all(Radius.circular(12.px))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 16),
+                  margin: EdgeInsets.only(left: 16.px),
                   alignment: Alignment.centerLeft,
-                  child: const Text("无14天内记录",
+                  child: Text("无14天内记录",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.px,
                         fontWeight: FontWeight.bold,
                         color: color_FF303133,
                       )),
-                  height: 48,
+                  height: 48.px,
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 16),
+                  margin: EdgeInsets.only(left: 16.px),
                   height: 0.5,
-                  width: 48,
+                  width: 48.px,
                   color: color_FFCECECE,
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 16),
-                    height: 47.5,
+                    margin: EdgeInsets.only(left: 16.px),
+                    height: 47.5.px,
                     alignment: Alignment.centerLeft,
-                    child: const Text("无14天内记录",
+                    child: Text("无14天内记录",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.px,
                           color: color_FF606266,
                         )))
               ],
@@ -60,41 +61,41 @@ class HiRouteCodeRecordCell extends StatelessWidget {
         ]),
         Stack(children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-            height: 96,
-            width: (ScreenW(context) - 48 - 16) / 2,
-            decoration: const BoxDecoration(
+            margin: EdgeInsets.fromLTRB(16.px, 0, 0, 0),
+            height: 96.px,
+            width: (ScreenW(context) - 48.px - 16.px) / 2,
+            decoration: BoxDecoration(
                 color: HiColorAllInsertCode,
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: BorderRadius.all(Radius.circular(12.0.px))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 16),
+                  margin: EdgeInsets.only(left: 16.px),
                   alignment: Alignment.centerLeft,
-                  child: const Text("已全程接种",
+                  child: Text("已全程接种",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.px,
                         fontWeight: FontWeight.bold,
                         color: color_FF303133,
                       )),
-                  height: 48,
+                  height: 48.px,
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 16),
+                  margin: EdgeInsets.only(left: 16.px),
                   height: 0.5,
-                  width: 48,
+                  width: 48.px,
                   color: color_FFCECECE,
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 16),
-                    height: 47.5,
+                    margin: EdgeInsets.only(left: 16.px),
+                    height: 47.5.px,
                     alignment: Alignment.centerLeft,
-                    child: const Text("疫苗接种",
+                    child: Text("疫苗接种",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.px,
                           color: color_FF606266,
                         )))
               ],

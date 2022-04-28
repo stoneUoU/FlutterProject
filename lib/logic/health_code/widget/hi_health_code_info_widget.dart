@@ -3,7 +3,7 @@ import 'package:flutter_project/base/config/hi_colors.dart';
 import 'package:flutter_project/base/config/hi_const.dart';
 import 'package:menghabit/tool/base/extensions/screen_extension.dart';
 
-typedef void HiHealthCodeInfoWidgetClickListener(int idStr);
+typedef HiHealthCodeInfoWidgetClickListener = void Function(int idStr);
 
 class HiHealthCodeInfoWidget extends StatefulWidget {
   final HiHealthCodeInfoWidgetClickListener healthCodeInfoWidgetClickListener;
